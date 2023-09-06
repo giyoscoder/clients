@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import { saturn, tefal } from "./assets";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 const App = () => {
-  const [count, setCount] = useState(0);
+  const [tefal, setTefal] = useState(false);
+  const [rowenta, setRowenta] = useState(false);
+  const [krups, setKrups] = useState(false);
+  const [emsa, setEmsa] = useState(false);
   return (
     <div className="w-full flex justify-end  ">
       {/* side bar */}
@@ -50,13 +53,13 @@ const App = () => {
                 </span>
               </p>
 
-              <div className="bg-transparent hover:bg-[#000] hover:text-white cursor-pointer transition-all duration-500 border border-[#000] rounded-full p-[10px] ml-[27px]">
-                <BsArrowLeft size="20" />
+              <div className={`${tefal ? 'bg-[#000] text-white' :'bg-transparent'} hover:bg-[#000] hover:text-white cursor-pointer transition-all duration-500 border border-[#000] rounded-full p-[10px] ml-[27px]`} onClick={() => setTefal(true)}>
+                {tefal ? <BsArrowRight size="20" /> : <BsArrowLeft size="20" />  }
               </div>
             </div>
 
             {/* Rowenta */}
-            <div className="bg-white border border-[F1F1F1] rounded-2xl p-5 inline-flex  items-center gap-5">
+            <div className={`bg-white border border-[F1F1F1] rounded-2xl p-5 inline-flex  items-center gap-5`} onClick={()=> setRowenta(true)}>
               <img src={tefal} />
               <p className="text-[#000] font-medium text-3xl">
                 ROWENTA{" "}
@@ -65,12 +68,12 @@ const App = () => {
                 </span>
               </p>
 
-              <div className="bg-transparent hover:bg-[#000] hover:text-white cursor-pointer transition-all duration-500 border border-[#000] rounded-full p-[10px] ml-[27px]">
-                <BsArrowLeft size="20" />
+              <div className={`${rowenta ? 'bg-[#000] text-white' : 'bg-transparent'} hover:bg-[#000] hover:text-white cursor-pointer transition-all duration-500 border border-[#000] rounded-full p-[10px] ml-[27px]`}>
+               {rowenta ? <BsArrowRight size='20' /> : <BsArrowLeft size="20" />}
               </div>
             </div>
             {/* Emsa */}
-            <div className="bg-white border border-[F1F1F1] rounded-2xl p-5 inline-flex  items-center gap-5">
+            <div className="bg-white border border-[F1F1F1] rounded-2xl p-5 inline-flex  items-center gap-5" onClick={()=> setEmsa(true)}>
               <img src={tefal} />
               <p className="text-[#000] font-medium text-3xl">
                 EMSA{" "}
@@ -79,12 +82,13 @@ const App = () => {
                 </span>
               </p>
 
-              <div className="bg-transparent hover:bg-[#000] hover:text-white cursor-pointer transition-all duration-500 border border-[#000] rounded-full p-[10px] ml-[27px]">
-                <BsArrowLeft size="20" />
+              <div className={`${emsa? 'bg-[#000] text-white' : 'bg-transparent'}  hover:bg-[#000] hover:text-white cursor-pointer transition-all duration-500 border border-[#000] rounded-full p-[10px] ml-[27px]`}>
+               {emsa? <BsArrowRight size="20" />:<BsArrowLeft size="20" />}
               </div>
             </div>
             {/* Krups */}
-            <div className="bg-white border border-[F1F1F1] rounded-2xl p-5 inline-flex  items-center gap-5">
+            <div className={` bg-transparent border border-[F1F1F1] rounded-2xl p-5 inline-flex  items-center gap-5`} onClick={()=> setKrups(true)}>
+
               <img src={tefal} />
               <p className="text-[#000] font-medium text-3xl">
                 KRUPS{" "}
@@ -93,8 +97,8 @@ const App = () => {
                 </span>
               </p>
 
-              <div className="bg-transparent hover:bg-[#000] hover:text-white cursor-pointer transition-all duration-500 border border-[#000] rounded-full p-[10px] ml-[27px]">
-                <BsArrowLeft size="20" />
+              <div className={`${krups? 'bg-[#000] text-white' : 'bg-transparent'} hover:bg-[#000] hover:text-white cursor-pointer transition-all duration-500 border border-[#000] rounded-full p-[10px] ml-[27px]`}>
+               {krups ? <BsArrowRight size="20" /> :<BsArrowLeft size="20" />}
               </div>
             </div>
           </div>
@@ -123,7 +127,7 @@ const App = () => {
           </div>
           <div className="flex items-center justify-between bg-white p-5 rounded-[16px] mt-[10px]">
             <p className="text-xl font-normal text-[#000]">Total: </p>
-            <p className="text-xl font-medium text-[#000]">{count} Articles</p>
+            <p className="text-xl font-medium text-[#000]">0 Articles</p>
           </div>
         </div>
       </div>
