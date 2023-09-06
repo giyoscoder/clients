@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { saturn, tefal } from "./assets";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
+import {CiSearch} from 'react-icons/ci'
 const App = () => {
   const [tefal, setTefal] = useState(false);
   const [rowenta, setRowenta] = useState(false);
   const [krups, setKrups] = useState(false);
   const [emsa, setEmsa] = useState(false);
+
   return (
     <div className="w-full flex justify-end  ">
       {/* side bar */}
@@ -17,6 +19,10 @@ const App = () => {
         }}
       >
         <p className="text-white font-medium text-2xl">Logo</p>
+        <label className="bg-[rgb(2,25,59)] flex items-center gap-3 p-[14px] rounded-[49px] mt-5 border">
+          <CiSearch size={30} className="text-white"/>
+          <input placeholder="Search here" className="border-none outline-none bg-transparent text-white"/>
+        </label>
         <div>
           <p className="text-white  text-base font-medium mt-8 mb-3">
             Main Menu
