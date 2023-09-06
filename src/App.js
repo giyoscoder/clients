@@ -7,6 +7,7 @@ const App = () => {
   const [rowenta, setRowenta] = useState(false);
   const [krups, setKrups] = useState(false);
   const [emsa, setEmsa] = useState(false);
+  const [list, setList] = useState(-1)
 
   return (
     <div className="w-full flex justify-end  ">
@@ -117,11 +118,11 @@ const App = () => {
             {/* list */}
             {[1, 2, 3, 4, 5].map((data, idx) => {
               return (
-                <div className="flex items-center gap-3">
-                  <p className="text-base text-[#000] font-normal h-[46px] w-[46px] grid place-items-center bg-[#F8F8F8] rounded-lg ">
+                <div className="flex items-center gap-3" onClick={()=>setList(idx)}>
+                  <p className={`text-base text-[#000] font-normal h-[46px] w-[46px] grid place-items-center ${list == idx? 'bg-red-400' : 'bg-[#F8F8F8]'} rounded-lg `}>
                     {data}
                   </p>
-                  <p className="grow text-[#000] text-base tracking-[0.16px] py-[11px] pl-[11px] bg-[#F8F8F8] rounded-lg ">
+                  <p className={`grow text-[#000] text-base tracking-[0.16px] py-[11px] pl-[11px] ${list == idx? 'bg-red-400' : 'bg-[#F8F8F8]'} rounded-lg `}>
                     Buegelstation
                   </p>
                 </div>
