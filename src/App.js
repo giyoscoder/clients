@@ -4,6 +4,7 @@ import { BsArrowLeft } from "react-icons/bs";
 const App = () => {
   return (
     <div className="w-full flex justify-end  ">
+      {/* side bar */}
       <div
         className="w-[19%] h-screen fixed top-0 left-0 p-10"
         style={{
@@ -32,14 +33,21 @@ const App = () => {
           </div>
         </div>
       </div>
-      <div className="w-[81%] h-screen bg-[#F8F8F8] p-10">
-        <div >
+
+      {/* main part */}
+      <div className="w-[81%] h-screen bg-[#F8F8F8] p-10 flex items-start gap-[30px]">
+        <div className="">
           <p className="text-[#000] text-3xl font-medium">Brands!</p>
           <div className="flex flex-col gap-4 mt-[28px]">
             {/* tefal */}
             <div className="bg-white border border-[F1F1F1] rounded-2xl p-5  flex  items-center gap-5">
               <img src={tefal} />
-              <p className="text-[#000] font-medium text-3xl">TEFAL <span className="block text-[#828282] text-base font-medium">Total product : 15+</span></p>
+              <p className="text-[#000] font-medium text-3xl">
+                TEFAL{" "}
+                <span className="block text-[#828282] text-base font-medium">
+                  Total product : 15+
+                </span>
+              </p>
 
               <div className="bg-transparent hover:bg-[#000] hover:text-white cursor-pointer transition-all duration-500 border border-[#000] rounded-full p-[10px] ml-[27px]">
                 <BsArrowLeft size="20" />
@@ -49,7 +57,12 @@ const App = () => {
             {/* Rowenta */}
             <div className="bg-white border border-[F1F1F1] rounded-2xl p-5 inline-flex  items-center gap-5">
               <img src={tefal} />
-              <p className="text-[#000] font-medium text-3xl">ROWENTA <span className="block text-[#828282] text-base font-medium">Total product : 15+</span></p>
+              <p className="text-[#000] font-medium text-3xl">
+                ROWENTA{" "}
+                <span className="block text-[#828282] text-base font-medium">
+                  Total product : 15+
+                </span>
+              </p>
 
               <div className="bg-transparent hover:bg-[#000] hover:text-white cursor-pointer transition-all duration-500 border border-[#000] rounded-full p-[10px] ml-[27px]">
                 <BsArrowLeft size="20" />
@@ -58,7 +71,12 @@ const App = () => {
             {/* Emsa */}
             <div className="bg-white border border-[F1F1F1] rounded-2xl p-5 inline-flex  items-center gap-5">
               <img src={tefal} />
-              <p className="text-[#000] font-medium text-3xl">EMSA <span className="block text-[#828282] text-base font-medium">Total product : 15+</span></p>
+              <p className="text-[#000] font-medium text-3xl">
+                EMSA{" "}
+                <span className="block text-[#828282] text-base font-medium">
+                  Total product : 15+
+                </span>
+              </p>
 
               <div className="bg-transparent hover:bg-[#000] hover:text-white cursor-pointer transition-all duration-500 border border-[#000] rounded-full p-[10px] ml-[27px]">
                 <BsArrowLeft size="20" />
@@ -67,12 +85,36 @@ const App = () => {
             {/* Krups */}
             <div className="bg-white border border-[F1F1F1] rounded-2xl p-5 inline-flex  items-center gap-5">
               <img src={tefal} />
-              <p className="text-[#000] font-medium text-3xl">KRUPS <span className="block text-[#828282] text-base font-medium">Total product : 15+</span></p>
+              <p className="text-[#000] font-medium text-3xl">
+                KRUPS{" "}
+                <span className="block text-[#828282] text-base font-medium">
+                  Total product : 15+
+                </span>
+              </p>
 
               <div className="bg-transparent hover:bg-[#000] hover:text-white cursor-pointer transition-all duration-500 border border-[#000] rounded-full p-[10px] ml-[27px]">
                 <BsArrowLeft size="20" />
               </div>
             </div>
+          </div>
+          {/* Lists */}
+        </div>
+        <div className="grow">
+          <p className="text-[#000] text-3xl font-medium">Products</p>
+          <div className="bg-white border mt-[28px] border-[#F1F1F1] rounded-2xl p-5 divide-y-[12px] divide-[white]">
+            {/* list */}
+            {[1, 2, 3, 4, 5].map((data, idx) => {
+              return (
+                <div className="flex items-center gap-3">
+                  <p className="text-base text-[#000] font-normal h-[46px] w-[46px] grid place-items-center bg-[#F8F8F8] rounded-lg ">
+                    {data}
+                  </p>
+                  <p className="grow text-[#000] text-base tracking-[0.16px] py-[11px] pl-[11px] bg-[#F8F8F8] rounded-lg ">
+                    Buegelstation
+                  </p>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
