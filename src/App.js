@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { saturn, tefal } from "./assets";
-import { BsArrowLeft } from "react-icons/bs";
+import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 const App = () => {
+  const [count, setCount] = useState(0);
   return (
     <div className="w-full flex justify-end  ">
       {/* side bar */}
@@ -97,8 +98,9 @@ const App = () => {
               </div>
             </div>
           </div>
-          {/* Lists */}
         </div>
+
+          {/* Lists */}
         <div className="grow">
           <p className="text-[#000] text-3xl font-medium">Products</p>
           <div className="bg-white border mt-[28px] border-[#F1F1F1] rounded-2xl p-5 divide-y-[12px] divide-[white]">
@@ -115,6 +117,13 @@ const App = () => {
                 </div>
               );
             })}
+            <button className="text-white font-medium text-xl py-[10px] px-[73px] rounded-[10px] border-none bg-[#7C7AF3] mt-10 block ml-auto">
+              Submit
+            </button>
+          </div>
+          <div className="flex items-center justify-between bg-white p-5 rounded-[16px] mt-[10px]">
+            <p className="text-xl font-normal text-[#000]">Total: </p>
+            <p className="text-xl font-medium text-[#000]">{count} Articles</p>
           </div>
         </div>
       </div>
