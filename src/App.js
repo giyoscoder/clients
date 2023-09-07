@@ -257,7 +257,7 @@ const App = () => {
                       className={`flex items-center gap-3 cursor-pointer ${
                         isSelected ? "selected-item" : ""
                       }`}
-                      onClick={() =>{return  handleItemClick(idx), setData(prev => [...prev, data?.category])}}
+                      onClick={() =>{return  handleItemClick(idx), setSelection(prev => [...prev, data?.category])}}
                     >
                       <p
                         className={`text-base text-[#000] font-normal h-[46px] w-[46px] grid place-items-center ${
