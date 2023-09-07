@@ -217,7 +217,7 @@ const App = () => {
 
         {/* Lists */}
         {data.length != 0 && (
-          <div className="grow">
+          <div className="grow h-[90%] overflow-y-scroll listData">
             <p className="text-[#000] text-3xl font-medium">Products</p>
             <div className="bg-white border mt-[28px] border-[#F1F1F1] rounded-2xl p-5 divide-y-[12px] divide-[white]">
               {/* list */}
@@ -226,7 +226,7 @@ const App = () => {
                   <div
                     key={idx}
                     className="flex items-center gap-3 cursor-pointer"
-                    onClick={()=> {return setSelection([...selection, data?.category]), setList(prev => !prev)}}
+                    onClick={()=> {return setSelection([...selection, data?.category]), setList(idx)}}
                   >
                     <p
                       className={`text-base text-[#000] font-normal h-[46px] w-[46px] grid place-items-center border ${

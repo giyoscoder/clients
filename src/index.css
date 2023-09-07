@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.listData::-webkit-scrollbar {
+    width: 3px;
+    background-color: #f1f1f1;
+}
+
+.listData::-webkit-scrollbar-thumb
+{
+    background-color: gray;
+}
