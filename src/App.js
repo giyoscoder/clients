@@ -12,6 +12,8 @@ const App = () => {
   const [list, setList] = useState(-1);
   const [data, setData] = useState([]);
   const [result, setResult] = useState([]);
+  const [selection, setSelection] = useState([])
+  const [number, setNumber] = useState()
 
   useEffect(() => {
     // const data = ["EMSA" ]
@@ -58,8 +60,29 @@ const App = () => {
         setData([])
       }
     }
-    setEmsa(true)
+    setEmsa(value => !value)
   }
+
+  const submitHandler = () => {
+    const params = {
+      categories: selection,
+    };
+
+    const queryString = Object.keys(params)
+      .map((key) => {
+        const values = Array.isArray(params[key]) ? params[key] : [params[key]];
+        return values
+          .map(
+            (value) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
+          )
+          .join("&");
+      })
+      .join("&");
+
+    const url = `/search?${queryString}`;
+    instance.get(url).then((data) => setNumber(data?.data?.count));
+  }
+
   return (
     <div className="w-full flex justify-end  ">
       {/* side bar */}
@@ -130,7 +153,7 @@ const App = () => {
             {/* Rowenta */}
             <div
               className={`bg-white border ${rowenta ? 'border-[#000]' : 'border-[F1F1F1]'}  rounded-2xl p-5 inline-flex  items-center justify-between cursor-pointer`}
-              onClick={() =>{ return setData((prev) => [...prev, "Rowenta"]), setRowenta(true)}}
+              onClick={() =>{ return setData((prev) => [...prev, "Rowenta"]), setRowenta(prev => !prev)}}
             >
                <div className="flex items-center gap-1">
               <img src={tefalImg} className="h-[70xpx] w-[70px]"/>
@@ -173,7 +196,7 @@ const App = () => {
             {/* Krups */}
             <div
               className={` bg-transparent border ${krups ? 'border-[#000]': 'border-[F1F1F1]'} rounded-2xl p-5 inline-flex  items-center justify-between cursor-pointer`}
-              onClick={() => {return setData((prev) => [...prev, "Krups"]), setKrups(true)}}
+              onClick={() => {return setData((prev) => [...prev, "Krups"]), setKrups(prev => !prev)}}
             >
               
               <div className="flex items-center gap-1">
@@ -203,18 +226,18 @@ const App = () => {
                   <div
                     key={idx}
                     className="flex items-center gap-3 cursor-pointer"
-                    onClick={() => setList(idx)}
+                    onClick={()=> setSelection([...selection, data?.category])}
                   >
                     <p
-                      className={`text-base text-[#000] font-normal h-[46px] w-[46px] grid place-items-center ${
-                        list == idx ? "bg-red-400" : "bg-[#F8F8F8]"
+                      className={`text-base text-[#000] font-normal h-[46px] w-[46px] grid place-items-center border ${
+                        list == idx ? "border-red-500" : "border-[#F1F1F1]"
                       } rounded-lg `}
                     >
                       {idx + 1}
                     </p>
                     <p
-                      className={`grow text-[#000] text-base tracking-[0.16px] py-[11px] pl-[11px] ${
-                        list == idx ? "bg-red-400" : "bg-[#F8F8F8]"
+                      className={`grow text-[#000] text-base tracking-[0.16px] py-[11px] pl-[11px] border ${
+                        list == idx ? "border-red-500" : "border-[#F1F1F1]"
                       } rounded-lg `}
                     >
                       {data?.category}
@@ -222,13 +245,13 @@ const App = () => {
                   </div>
                 );
               })}
-              <button className="text-white font-medium text-xl py-[10px] px-[73px] rounded-[10px] border-none bg-[#7C7AF3] mt-10 block ml-auto">
+              <button className="text-white font-medium text-xl py-[10px] px-[73px] rounded-[10px] border-none transition-all duration-300 bg-[#7C7AF3] mt-10 block ml-auto hover:bg-[#4340ff]" onClick={submitHandler}>
                 Submit
               </button>
             </div>
             <div className="flex items-center justify-between bg-white p-5 rounded-[16px] mt-[10px]">
               <p className="text-xl font-normal text-[#000]">Total: </p>
-              <p className="text-xl font-medium text-[#000]">0 Articles</p>
+              <p className="text-xl font-medium text-[#000]">{number} Articles</p>
             </div>
           </div>
         )}
