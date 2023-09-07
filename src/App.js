@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { saturn,tefalImg , otto} from "./assets";
+import { saturn, tefalImg, otto, krupsImg, media, rowentaImg , emsaImg} from "./assets";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import { CiSearch } from "react-icons/ci";
 import { instance } from "./Api/axios";
@@ -12,8 +12,9 @@ const App = () => {
   const [list, setList] = useState(-1);
   const [data, setData] = useState([]);
   const [result, setResult] = useState([]);
-  const [selection, setSelection] = useState([])
-  const [number, setNumber] = useState()
+  const [selection, setSelection] = useState([]);
+  const [number, setNumber] = useState();
+  const [selectedItems, setSelectedItems] = useState([]);
 
   useEffect(() => {
     // const data = ["EMSA" ]
@@ -37,31 +38,31 @@ const App = () => {
   }, [data, tefal, emsa]);
 
   const handleTefal = () => {
-    if(!tefal){
-      setData((prev) => [...prev, "Tefal"])
-    }else{
-      if(emsa){
-        setData(['EMSA'])
-      }else {
-        setData([])
+    if (!tefal) {
+      setData((prev) => [...prev, "Tefal"]);
+    } else {
+      if (emsa) {
+        setData(["EMSA"]);
+      } else {
+        setData([]);
       }
     }
-    
-    setTefal((value) => !value)  
-  }
 
-  const handlerEmsa = ( ) => {
-    if(!emsa){
-      setData((prev) => [...prev, "EMSA"])
-    }else{
-      if(tefal){
-        setData(['Tefal'])
-      }else {
-        setData([])
+    setTefal((value) => !value);
+  };
+
+  const handlerEmsa = () => {
+    if (!emsa) {
+      setData((prev) => [...prev, "EMSA"]);
+    } else {
+      if (tefal) {
+        setData(["Tefal"]);
+      } else {
+        setData([]);
       }
     }
-    setEmsa(value => !value)
-  }
+    setEmsa((value) => !value);
+  };
 
   const submitHandler = () => {
     const params = {
@@ -81,7 +82,20 @@ const App = () => {
 
     const url = `/search?${queryString}`;
     instance.get(url).then((data) => setNumber(data?.data?.count));
-  }
+
+  };
+
+
+
+  const handleItemClick = (idx) => {
+    setList(idx);
+    const selectedItem = result[idx]?.category;
+    if (selectedItems.includes(selectedItem)) {
+      setSelectedItems(selectedItems.filter((item) => item !== selectedItem));
+    } else {
+      setSelectedItems([...selectedItems, selectedItem]);
+    }
+  };
 
   return (
     <div className="w-full flex justify-end  ">
@@ -112,11 +126,11 @@ const App = () => {
             </button>
             <button className="bg-transparent hover:bg-white hover:font-medium hover:text-[#000] p-4 text-white w-full text-start rounded-[49px]  font-normal flex items-start gap-1">
               {" "}
-              <img src={saturn} /> Media Marketing
+              <img src={media} className="mt-[-10px] mr-2"/> Media Marketing
             </button>
             <button className="bg-transparent hover:bg-white hover:font-medium hover:text-[#000] p-4 text-white w-full text-start rounded-[49px]  font-normal flex items-start gap-1">
               {" "}
-              <img src={otto} className="pr-3"/> OTTO
+              <img src={otto} className="pr-3" /> OTTO
             </button>
           </div>
         </div>
@@ -133,12 +147,14 @@ const App = () => {
           >
             {/* tefal */}
             <div
-              className={`bg-white ${tefal ? 'border-[#000]': 'border-[F1F1F1]'} border  rounded-2xl p-5  flex  items-center  justify-between cursor-pointer`}
+              className={`bg-white ${
+                tefal ? "border-[#000]" : "border-[F1F1F1]"
+              } border  rounded-2xl p-5  flex  items-center  justify-between cursor-pointer`}
               onClick={handleTefal}
             >
               <div className="flex items-center gap-1">
-              <img src={tefalImg} className="h-[70xpx] w-[70px]"/>
-              <p className="text-[#000] font-medium text-3xl">TEFAL</p>
+                <img src={tefalImg} className="h-[70xpx] w-[70px]" />
+                <p className="text-[#000] font-medium text-3xl">TEFAL</p>
               </div>
 
               <div
@@ -152,14 +168,20 @@ const App = () => {
 
             {/* Rowenta */}
             <div
-              className={`bg-white border ${rowenta ? 'border-[#000]' : 'border-[F1F1F1]'}  rounded-2xl p-5 inline-flex  items-center justify-between cursor-pointer`}
-              onClick={() =>{ return setData((prev) => [...prev, "Rowenta"]), setRowenta(prev => !prev)}}
+              className={`bg-white border ${
+                rowenta ? "border-[#000]" : "border-[F1F1F1]"
+              }  rounded-2xl p-5 inline-flex  items-center justify-between cursor-pointer`}
+              onClick={() => {
+                return (
+                  setData((prev) => [...prev, "Rowenta"]),
+                  setRowenta((prev) => !prev)
+                );
+              }}
             >
-               <div className="flex items-center gap-1">
-              <img src={tefalImg} className="h-[70xpx] w-[70px]"/>
-              <p className="text-[#000] font-medium text-3xl">ROWENTA</p>
+              <div className="flex items-center gap-1">
+                <img src={rowentaImg} className="h-[70xpx] w-[70px]" />
+                <p className="text-[#000] font-medium text-3xl">ROWENTA</p>
               </div>
-             
 
               <div
                 className={`${
@@ -175,14 +197,14 @@ const App = () => {
             </div>
             {/* Emsa */}
             <div
-              className={`bg-white border ${emsa? 'border-[#000]' : 'border-[#F1F1F1]'} rounded-2xl p-5 inline-flex  items-center justify-between cursor-pointer`}
+              className={`bg-white border ${
+                emsa ? "border-[#000]" : "border-[#F1F1F1]"
+              } rounded-2xl p-5 inline-flex  items-center justify-between cursor-pointer`}
               onClick={handlerEmsa}
             >
-              
-                
               <div className="flex items-center gap-1">
-              <img src={tefalImg} className="h-[70xpx] w-[70px]"/>
-              <p className="text-[#000] font-medium text-3xl">EMSA</p>
+                <img src={emsaImg} className="h-[50px] w-[50px]" />
+                <p className="text-[#000] font-medium text-3xl">EMSA</p>
               </div>
               <div
                 className={`${
@@ -195,13 +217,19 @@ const App = () => {
 
             {/* Krups */}
             <div
-              className={` bg-transparent border ${krups ? 'border-[#000]': 'border-[F1F1F1]'} rounded-2xl p-5 inline-flex  items-center justify-between cursor-pointer`}
-              onClick={() => {return setData((prev) => [...prev, "Krups"]), setKrups(prev => !prev)}}
+              className={` bg-transparent border ${
+                krups ? "border-[#000]" : "border-[F1F1F1]"
+              } rounded-2xl p-5 inline-flex  items-center justify-between cursor-pointer`}
+              onClick={() => {
+                return (
+                  setData((prev) => [...prev, "Krups"]),
+                  setKrups((prev) => !prev)
+                );
+              }}
             >
-              
               <div className="flex items-center gap-1">
-              <img src={tefalImg} className="h-[70xpx] w-[70px]"/>
-              <p className="text-[#000] font-medium text-3xl">KRUPS</p>
+                <img src={krupsImg} className="h-[70xpx] w-[70px]" />
+                <p className="text-[#000] font-medium text-3xl">KRUPS</p>
               </div>
               <div
                 className={`${
@@ -210,48 +238,59 @@ const App = () => {
               >
                 {krups ? <BsArrowLeft size="20" /> : <BsArrowRight size="20" />}
               </div>
-             
             </div>
           </div>
         </div>
 
         {/* Lists */}
         {data.length != 0 && (
-          <div className="grow h-[90%] overflow-y-scroll listData">
+          <div className="grow ">
             <p className="text-[#000] text-3xl font-medium">Products</p>
-            <div className="bg-white border mt-[28px] border-[#F1F1F1] rounded-2xl p-5 divide-y-[12px] divide-[white]">
+            <div className="bg-white border mt-[28px] border-[#F1F1F1] rounded-2xl p-5 divide-y-[12px] divide-[white] h-[500px] overflow-y-scroll listData">
               {/* list */}
-              {result.map((data, idx) => {
-                return (
-                  <div
-                    key={idx}
-                    className="flex items-center gap-3 cursor-pointer"
-                    onClick={()=> {return setSelection([...selection, data?.category]), setList(idx)}}
-                  >
-                    <p
-                      className={`text-base text-[#000] font-normal h-[46px] w-[46px] grid place-items-center border ${
-                        list == idx ? "border-red-500" : "border-[#F1F1F1]"
-                      } rounded-lg `}
+              <div>
+                {result.map((data, idx) => {
+                  const isSelected = selectedItems.includes(data?.category);
+                  return (
+                    <div
+                      key={idx}
+                      className={`flex items-center gap-3 cursor-pointer ${
+                        isSelected ? "selected-item" : ""
+                      }`}
+                      onClick={() =>{return  handleItemClick(idx), setData(prev => [...prev, data?.category])}}
                     >
-                      {idx + 1}
-                    </p>
-                    <p
-                      className={`grow text-[#000] text-base tracking-[0.16px] py-[11px] pl-[11px] border ${
-                        list == idx ? "border-red-500" : "border-[#F1F1F1]"
-                      } rounded-lg `}
-                    >
-                      {data?.category}
-                    </p>
-                  </div>
-                );
-              })}
-              <button className="text-white font-medium text-xl py-[10px] px-[73px] rounded-[10px] border-none transition-all duration-300 bg-[#7C7AF3] mt-10 block ml-auto hover:bg-[#4340ff]" onClick={submitHandler}>
+                      <p
+                        className={`text-base text-[#000] font-normal h-[46px] w-[46px] grid place-items-center ${
+                          isSelected ? "bg-[#F8F8F8]" : "bg-transparent"
+                        } rounded-lg`}
+                      >
+                        {idx + 1}
+                      </p>
+                      <p
+                        className={`grow text-[#000] text-base tracking-[0.16px] py-[11px] pl-[11px] border-r-4 border-transparent ${
+                          isSelected
+                            ? "bg-[#F8F8F8] border-blue-900"
+                            : "bg-transparent"
+                        } rounded-lg`}
+                      >
+                        {data?.category}
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
+              <button
+                className="text-white font-medium text-xl py-[10px] px-[73px] rounded-[10px] border-none transition-all duration-300 bg-[#7C7AF3] mt-10 block ml-auto hover:bg-[#4340ff]"
+                onClick={submitHandler}
+              >
                 Submit
               </button>
             </div>
             <div className="flex items-center justify-between bg-white p-5 rounded-[16px] mt-[10px]">
               <p className="text-xl font-normal text-[#000]">Total: </p>
-              <p className="text-xl font-medium text-[#000]">{number} Articles</p>
+              <p className="text-xl font-medium text-[#000]">
+                {number} Articles
+              </p>
             </div>
           </div>
         )}
