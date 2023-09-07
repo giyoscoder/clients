@@ -226,7 +226,7 @@ const App = () => {
                   <div
                     key={idx}
                     className="flex items-center gap-3 cursor-pointer"
-                    onClick={()=> setSelection([...selection, data?.category])}
+                    onClick={()=> {return setSelection([...selection, data?.category]), setList(prev => !prev)}}
                   >
                     <p
                       className={`text-base text-[#000] font-normal h-[46px] w-[46px] grid place-items-center border ${
