@@ -16,6 +16,10 @@ const App = () => {
   const [number, setNumber] = useState();
   const [selectedItems, setSelectedItems] = useState([]);
 
+  const removeItem = (item) => {
+    selection.filter((val) => item != val)
+  }
+
   useEffect(() => {
     // const data = ["EMSA" ]
     const params = {
@@ -64,9 +68,14 @@ const App = () => {
     setEmsa((value) => !value);
   };
 
+  const selectionHandler = (e) => {
+    setSelection()
+  }
+
   const submitHandler = () => {
+    const ignore = [...new Set(selection)]
     const params = {
-      categories: selection,
+      categories: ignore
     };
 
     const queryString = Object.keys(params)
@@ -138,39 +147,39 @@ const App = () => {
 
       {/* main part */}
       <div
-        className={`w-[81%] h-screen bg-[#F8F8F8] p-10 flex items-start gap-[30px]`}
+        className={`w-[81%] h-screen bg-[#F8F8F8] p-10 flex items-start gap-[30px] `}
       >
-        <div className="">
+        <div className={`${data.length ? '': 'w-full'}`}>
           <p className="text-[#000] text-3xl font-medium">Brands</p>
           <div
-            className={`flex ${data.length ? "flex-col" : ""}  gap-4 mt-[28px]`}
+            className={`grid ${data.length ? "grid-cols-1" : "grid-cols-4"} flex-wrap gap-4 mt-[28px]`}
           >
             {/* tefal */}
             <div
               className={`bg-white ${
-                tefal ? "border-[#000]" : "border-[F1F1F1]"
-              } border  rounded-2xl p-5  flex  items-center  justify-between cursor-pointer`}
+                tefal ? "border-[#000]" : "border-[#F1F1F1]"
+              } border  rounded-2xl px-2 py-5   flex  items-center  justify-between cursor-pointer`}
               onClick={handleTefal}
             >
               <div className="flex items-center gap-1">
-                <img src={tefalImg} className="h-[70xpx] w-[70px]" />
-                <p className="text-[#000] font-medium text-3xl">TEFAL</p>
+                <img src={tefalImg} className="h-[50xpx] w-[50px]" />
+                <p className="text-[#000] font-medium text-2xl">TEFAL</p>
               </div>
 
               <div
                 className={`${
                   tefal ? "bg-[#000] text-white" : "bg-transparent"
-                } hover:bg-[#000] hover:text-white cursor-pointer transition-all duration-500 border border-[#000] rounded-full p-[10px] ml-[27px]`}
+                } hover:bg-[#000] hover:text-white cursor-pointer transition-all duration-500 border border-[#000] rounded-full p-[10px] `}
               >
-                {tefal ? <BsArrowLeft size="20" /> : <BsArrowRight size="20" />}
+                {tefal ? <BsArrowLeft size="15" /> : <BsArrowRight size="15" />}
               </div>
             </div>
 
             {/* Rowenta */}
             <div
               className={`bg-white border ${
-                rowenta ? "border-[#000]" : "border-[F1F1F1]"
-              }  rounded-2xl p-5 inline-flex  items-center justify-between cursor-pointer`}
+                rowenta ? "border-[#000]" : "border-[#F1F1F1]"
+              }  rounded-2xl px-2 py-5  inline-flex  items-center justify-between cursor-pointer`}
               onClick={() => {
                 return (
                   setData((prev) => [...prev, "Rowenta"]),
@@ -179,47 +188,50 @@ const App = () => {
               }}
             >
               <div className="flex items-center gap-1">
-                <img src={rowentaImg} className="h-[70xpx] w-[70px]" />
-                <p className="text-[#000] font-medium text-3xl">ROWENTA</p>
+                <img src={rowentaImg} className="h-[50xpx] w-[50px]" />
+                <p className="text-[#000] font-medium text-2xl ">ROWENTA</p>
               </div>
 
               <div
                 className={`${
                   rowenta ? "bg-[#000] text-white" : "bg-transparent"
-                } hover:bg-[#000]  hover:text-white cursor-pointer transition-all duration-500 border border-[#000] rounded-full p-[10px] ml-[27px]`}
+                } hover:bg-[#000]  hover:text-white cursor-pointer transition-all duration-500 border border-[#000] rounded-full p-[10px] `}
               >
                 {rowenta ? (
-                  <BsArrowLeft size="20" />
+                  <BsArrowLeft size="15" />
                 ) : (
-                  <BsArrowRight size="20" />
+                  <BsArrowRight size="15" />
                 )}
               </div>
             </div>
+
+
+
             {/* Emsa */}
             <div
               className={`bg-white border ${
                 emsa ? "border-[#000]" : "border-[#F1F1F1]"
-              } rounded-2xl p-5 inline-flex  items-center justify-between cursor-pointer`}
+              } rounded-2xl px-2 py-5  inline-flex  items-center justify-between cursor-pointer`}
               onClick={handlerEmsa}
             >
               <div className="flex items-center gap-1">
-                <img src={emsaImg} className="h-[50px] w-[50px]" />
-                <p className="text-[#000] font-medium text-3xl">EMSA</p>
+                <img src={emsaImg} className="h-[40px] w-[40px]" />
+                <p className="text-[#000] font-medium text-2xl">EMSA</p>
               </div>
               <div
                 className={`${
                   emsa ? "bg-[#000] text-white" : "bg-transparent"
-                }  hover:bg-[#000] hover:text-white cursor-pointer transition-all duration-500 border border-[#000] rounded-full p-[10px] ml-[27px]`}
+                }  hover:bg-[#000] hover:text-white cursor-pointer transition-all duration-500 border border-[#000] rounded-full p-[10px]`}
               >
-                {emsa ? <BsArrowLeft size="20" /> : <BsArrowRight size="20" />}
+                {emsa ? <BsArrowLeft size="15" /> : <BsArrowRight size="15" />}
               </div>
             </div>
 
             {/* Krups */}
             <div
-              className={` bg-transparent border ${
-                krups ? "border-[#000]" : "border-[F1F1F1]"
-              } rounded-2xl p-5 inline-flex  items-center justify-between cursor-pointer`}
+              className={` bg-white border ${
+                krups ? "border-[#000]" : "border-[#F1F1F1]"
+              } rounded-2xl px-2 py-5 inline-flex  items-center justify-between cursor-pointer`}
               onClick={() => {
                 return (
                   setData((prev) => [...prev, "Krups"]),
@@ -228,15 +240,15 @@ const App = () => {
               }}
             >
               <div className="flex items-center gap-1">
-                <img src={krupsImg} className="h-[70xpx] w-[70px]" />
-                <p className="text-[#000] font-medium text-3xl">KRUPS</p>
+                <img src={krupsImg} className="h-[50px] w-[50px]" />
+                <p className="text-[#000] font-medium text-2xl">KRUPS</p>
               </div>
               <div
                 className={`${
                   krups ? "bg-[#000] text-white" : "bg-transparent"
-                } hover:bg-[#000] hover:text-white cursor-pointer transition-all duration-500 border border-[#000] rounded-full p-[10px] ml-[27px]`}
+                } hover:bg-[#000] hover:text-white cursor-pointer transition-all duration-500 border border-[#000] rounded-full p-[10px]`}
               >
-                {krups ? <BsArrowLeft size="20" /> : <BsArrowRight size="20" />}
+                {krups ? <BsArrowLeft size="15" /> : <BsArrowRight size="15" />}
               </div>
             </div>
           </div>
@@ -244,7 +256,7 @@ const App = () => {
 
         {/* Lists */}
         {data.length != 0 && (
-          <div className="grow ">
+          <div className="grow">
             <p className="text-[#000] text-3xl font-medium">Products</p>
             <div className="bg-white border mt-[28px] border-[#F1F1F1] rounded-2xl p-5 divide-y-[12px] divide-[white] h-[500px] overflow-y-scroll listData">
               {/* list */}
