@@ -114,7 +114,7 @@ const Main = ({setProducts}) => {
 
   const toggleElement = (categoryItem) => {
     if (selectedItems.includes(categoryItem)) {
-      setSelectedItems(selectedItems.filter((item) => item != categoryItem));
+      setSelectedItems(selectedItems.filter((item) => item == categoryItem));
     } else {
       setSelectedItems([...selectedItems, categoryItem]);
     }
@@ -133,7 +133,7 @@ const Main = ({setProducts}) => {
         }}
       >
         <p className="text-white font-medium text-2xl">Logo</p>
-        <label className="bg-[rgb(2,25,59)] flex items-center gap-3 p-[14px] rounded-[49px] mt-5 border">
+        <label className="bg-[rgb(2,25,59)] flex items-center gap-3 p-[7px] rounded-[49px] mt-5 border">
           <CiSearch size={30} className="text-white" />
           <input
             placeholder="Search here"
@@ -158,7 +158,7 @@ const Main = ({setProducts}) => {
               } hover:bg-white hover:font-medium hover:text-[#000] p-4 text-white w-full text-start rounded-[49px]  font-normal flex items-start gap-1`}
             >
               {" "}
-              <img src={saturn} /> Saturn
+              <img src={saturn} /> <span className={`${saturnActive && 'text-black font-semibold'}`}>Saturn</span>
             </button>
             <button
               onClick={() => {
@@ -173,7 +173,7 @@ const Main = ({setProducts}) => {
               } hover:bg-white hover:font-medium hover:text-[#000] p-4 text-white w-full text-start rounded-[49px] my-2 font-normal flex items-start gap-1`}
             >
               {" "}
-              <img src={media} className="mt-[-10px] mr-2" /> Media Marketing
+              <img src={media} className="mt-[-10px] mr-2" /> <span className={`${mediaActive && 'text-black font-medium'}`}>Media Marketing</span>
             </button>
             <button
               onClick={() => {
@@ -188,7 +188,7 @@ const Main = ({setProducts}) => {
               } hover:bg-white hover:font-medium hover:text-[#000] p-4 text-white w-full text-start rounded-[49px]  font-normal flex items-start gap-1`}
             >
               {" "}
-              <img src={otto} className="pr-3" /> OTTO
+              <img src={otto} className="pr-3" /> <span className={`${ottoActive && 'text-black font-medium'}`}>OTTO</span>
             </button>
           </div>
         </div>

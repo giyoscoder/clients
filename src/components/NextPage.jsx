@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import * as XLSX from "xlsx";
-import euro from '../assets/euro.png'
+import euro from "../assets/euro.png";
 
 // const excelData = [
 //   {
@@ -38,9 +38,11 @@ import euro from '../assets/euro.png'
 // ];
 
 const NextPage = ({ products }) => {
-   
-  let excelProducts = products.flat()
-  console.log(excelProducts);
+
+  const [search, setSearch ] = useState('')
+
+  let excelProducts = products.flat();
+  
 
   const exportHandler = () => {
     const wb = XLSX.utils.book_new();
@@ -63,6 +65,7 @@ const NextPage = ({ products }) => {
         </button>
       </div>
       <input
+      onChange={(e)=> setSearch(e.target.value)}
         type="text"
         className="w-full py-3 pl-3 border-2 my-5 outline-none rounded-md hover:border-blue-500 active:border-blue-500 focus:border-blue-500"
         placeholder="Filter brands..."
@@ -83,8 +86,9 @@ const NextPage = ({ products }) => {
           </thead>
           <tbody>
             {products?.map((data, idx) =>
-
-              data?.map((data, idx) => {
+              data?.filter(data => {
+                return search.toLowerCase() == '' ? data : data?.name.toLowerCase().includes(search)
+              }).map((data, idx) => {
                 return (
                   <tr key={idx}>
                     <td>{data?.article_number}</td>
@@ -96,8 +100,18 @@ const NextPage = ({ products }) => {
                         more info
                       </a>
                     </td>
-                    <td className=""><div className="flex items-center gap-1 px-1"> <img src={euro} alt=""  className="h-[10px] w-[10px]"/> {data?.uvp}</div></td>
-                    <td><div className="flex items-center gap-1 px-1x"> <img src={euro} alt=""  className="h-[10px] w-[10px]"/> {data?.vp}</div></td>
+                    <td className="">
+                      <div className="flex items-center gap-1 px-1">
+                        {data?.uvp}{" "}
+                        <img src={euro} alt="" className="h-[10px] w-[10px]" />{" "}
+                      </div>
+                    </td>
+                    <td>
+                      <div className="flex items-center gap-1 px-1x">
+                        {data?.vp}{" "}
+                        <img src={euro} alt="" className="h-[10px] w-[10px]" />{" "}
+                      </div>
+                    </td>
                   </tr>
                 );
               })
