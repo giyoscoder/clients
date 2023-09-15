@@ -12,13 +12,11 @@ import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import { CiSearch } from "react-icons/ci";
 import { instance } from "../Api/axios";
 import { NavLink } from "react-router-dom";
+import Loading from "./Loading";
 
-const Main = ({setProducts}) => {
-
-  
-
+const Main = ({ setProducts }) => {
   // side active
-  const [saturnActive, setSaturnActive] = useState(false);
+  const [saturnActive, setSaturnActive] = useState(true);
   const [mediaActive, setMediaActive] = useState(false);
   const [ottoActive, setOttoActive] = useState(false);
 
@@ -108,9 +106,8 @@ const Main = ({setProducts}) => {
       .get(url)
       .then((data) => setNumber(data?.data))
       .finally(() => setLoading(false));
-
-    };
-    setProducts(number?.products)
+  };
+  setProducts(number?.products);
 
   const toggleElement = (categoryItem) => {
     if (selectedItems.includes(categoryItem)) {
@@ -119,8 +116,6 @@ const Main = ({setProducts}) => {
       setSelectedItems([...selectedItems, categoryItem]);
     }
   };
-
-
 
   return (
     <div className="w-full flex justify-end">
@@ -158,7 +153,10 @@ const Main = ({setProducts}) => {
               } hover:bg-white hover:font-medium hover:text-[#000] p-4 text-white w-full text-start rounded-[49px]  font-normal flex items-start gap-1`}
             >
               {" "}
-              <img src={saturn} /> <span className={`${saturnActive && 'text-black font-semibold'}`}>Saturn</span>
+              <img src={saturn} />{" "}
+              <span className={`${saturnActive && "text-black font-semibold"}`}>
+                Saturn
+              </span>
             </button>
             <button
               onClick={() => {
@@ -173,7 +171,10 @@ const Main = ({setProducts}) => {
               } hover:bg-white hover:font-medium hover:text-[#000] p-4 text-white w-full text-start rounded-[49px] my-2 font-normal flex items-start gap-1`}
             >
               {" "}
-              <img src={media} className="mt-[-10px] mr-2" /> <span className={`${mediaActive && 'text-black font-medium'}`}>Media Marketing</span>
+              <img src={media} className="mt-[-10px] mr-2" />{" "}
+              <span className={`${mediaActive && "text-black font-medium"}`}>
+                Media Marketing
+              </span>
             </button>
             <button
               onClick={() => {
@@ -188,7 +189,10 @@ const Main = ({setProducts}) => {
               } hover:bg-white hover:font-medium hover:text-[#000] p-4 text-white w-full text-start rounded-[49px]  font-normal flex items-start gap-1`}
             >
               {" "}
-              <img src={otto} className="pr-3" /> <span className={`${ottoActive && 'text-black font-medium'}`}>OTTO</span>
+              <img src={otto} className="pr-3" />{" "}
+              <span className={`${ottoActive && "text-black font-medium"}`}>
+                OTTO
+              </span>
             </button>
           </div>
         </div>
@@ -306,58 +310,64 @@ const Main = ({setProducts}) => {
         {/* Lists */}
         {data.length != 0 && (
           <div className="grow">
-            <p className="text-[#000] text-3xl font-medium">Products</p>
-            <div className="bg-white border mt-[28px] border-[#F1F1F1] rounded-2xl p-5 divide-y-[12px] divide-[white] h-[500px] overflow-y-scroll listData">
-              {/* list */}
-              <div>
-                {result.map((data, idx) => {
-                  const isSelected = selectedItems.includes(data?.category);
-                  return (
-                    <div
-                      key={idx}
-                      className={`flex items-center gap-3 my-3 cursor-pointer ${
-                        isSelected && "selected-item"
-                      }`}
-                      onClick={() => toggleElement(data?.category)}
-                    >
-                      <p
-                        className={`text-base text-[#000] font-normal h-[46px] w-[46px] grid place-items-center ${
-                          isSelected ? "bg-[#F8F8F8]" : "bg-transparent"
-                        } rounded-lg`}
+            <p className="text-[#000] text-3xl mb-[28px] font-medium">Products</p>
+            
+           <div className="relative">
+           <div className="bg-white border relative border-[#F1F1F1] rounded-2xl p-5  divide-[white] h-[500px] overflow-y-scroll listData">
+                {/* list */}
+                <div>
+                  {result.map((data, idx) => {
+                    const isSelected = selectedItems.includes(data?.category);
+                    return (
+                      <div
+                        key={idx}
+                        className={`flex items-center gap-3 my-3 cursor-pointer ${
+                          isSelected && "selected-item"
+                        }`}
+                        onClick={() => toggleElement(data?.category)}
                       >
-                        {idx + 1}
-                      </p>
-                      <p
-                        className={`grow text-[#000] text-base tracking-[0.16px] py-[11px] pl-[11px] border-r-4 border-transparent ${
-                          isSelected
-                            ? "bg-[#F8F8F8] border-blue-900"
-                            : "bg-transparent"
-                        } rounded-lg`}
-                      >
-                        {data?.category}
-                      </p>
-                    </div>
-                  );
-                })}
+                        <p
+                          className={`text-base text-[#000] font-normal h-[46px] w-[46px] grid place-items-center ${
+                            isSelected ? "bg-[#ddd]" : "bg-transparent"
+                          } rounded-lg`}
+                        >
+                          {idx + 1}
+                        </p>
+                        <p
+                          className={`grow text-[#000] text-base tracking-[0.16px] py-[11px] pl-[11px]  ${
+                            isSelected
+                              ? "bg-[#ddd] "
+                              : "bg-transparent "
+                          } rounded-lg`}
+                        >
+                          {data?.category}
+                        </p>
+                      </div>
+                    );
+                  })}
+                </div>
+                <button
+                  className={`text-white ${
+                    loading && "cursor-wait bg-[#807eff]"
+                  } font-medium text-xl py-[10px] px-[73px] rounded-[10px] border-none transition-all duration-300 bg-[#4340ff] mt-10 block ml-auto `}
+                  onClick={submitHandler}
+                  disabled={loading}
+                >
+                  {loading ? "Loading..." : "Start Parsing"}
+                </button>
+             
               </div>
-              <button
-                className={`text-white ${
-                  loading && "cursor-wait bg-[#807eff]"
-                } font-medium text-xl py-[10px] px-[73px] rounded-[10px] border-none transition-all duration-300 bg-[#4340ff] mt-10 block ml-auto `}
-                onClick={submitHandler}
-                disabled={loading}
-              >
-                {loading ? "Loading..." : "Submit"}
-              </button>
-            </div>
+            
             <div className="flex items-center justify-between bg-white p-5 rounded-[16px] mt-[10px]">
               <p className="text-xl font-normal text-[#000]">Total: </p>
-              <NavLink to='/next' className="text-xl font-medium text-[#000]">
+              <NavLink to="/next" className="text-xl font-medium text-[#000]">
                 {number?.count} Articles
               </NavLink>
             </div>
+           </div>
           </div>
         )}
+        { loading && <Loading/> }
       </div>
     </div>
   );

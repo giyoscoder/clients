@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import * as XLSX from "xlsx";
 import euro from "../assets/euro.png";
-
+import { IoChevronBackCircleSharp } from "react-icons/io5";
+import { Link } from "react-router-dom";
 // const excelData = [
 //   {
 //     id: 1,
@@ -38,11 +39,9 @@ import euro from "../assets/euro.png";
 // ];
 
 const NextPage = ({ products }) => {
-
-  const [search, setSearch ] = useState('')
+  const [search, setSearch] = useState("");
 
   let excelProducts = products.flat();
-  
 
   const exportHandler = () => {
     const wb = XLSX.utils.book_new();
@@ -55,6 +54,9 @@ const NextPage = ({ products }) => {
 
   return (
     <div className="p-20">
+      <Link to='/' className="py-4 px-4 inline-block cursor-pointer bg-blue-600 rounded-md text-white font-bold hover:scale-90 transition-all duration-300">
+        <IoChevronBackCircleSharp size='25'/>
+      </Link>
       <div className="flex items-center justify-between">
         <p className="text-[#000] text-3xl font-medium">Products</p>
         <button
@@ -65,7 +67,7 @@ const NextPage = ({ products }) => {
         </button>
       </div>
       <input
-      onChange={(e)=> setSearch(e.target.value)}
+        onChange={(e) => setSearch(e.target.value)}
         type="text"
         className="w-full py-3 pl-3 border-2 my-5 outline-none rounded-md hover:border-blue-500 active:border-blue-500 focus:border-blue-500"
         placeholder="Filter brands..."
@@ -86,35 +88,47 @@ const NextPage = ({ products }) => {
           </thead>
           <tbody>
             {products?.map((data, idx) =>
-              data?.filter(data => {
-                return search.toLowerCase() == '' ? data : data?.name.toLowerCase().includes(search)
-              }).map((data, idx) => {
-                return (
-                  <tr key={idx}>
-                    <td>{data?.article_number}</td>
-                    <td>{data?.brand}</td>
-                    <td>{data?.name}</td>
-                    <td>{data?.available}</td>
-                    <td>
-                      <a href={data.url} target="_blank">
-                        more info
-                      </a>
-                    </td>
-                    <td className="">
-                      <div className="flex items-center gap-1 px-1">
-                        {data?.uvp}{" "}
-                        <img src={euro} alt="" className="h-[10px] w-[10px]" />{" "}
-                      </div>
-                    </td>
-                    <td>
-                      <div className="flex items-center gap-1 px-1x">
-                        {data?.vp}{" "}
-                        <img src={euro} alt="" className="h-[10px] w-[10px]" />{" "}
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })
+              data
+                ?.filter((data) => {
+                  return search.toLowerCase() == ""
+                    ? data
+                    : data?.name.toLowerCase().includes(search);
+                })
+                .map((data, idx) => {
+                  return (
+                    <tr key={idx}>
+                      <td>{data?.article_number}</td>
+                      <td>{data?.brand}</td>
+                      <td>{data?.name}</td>
+                      <td>{data?.available}</td>
+                      <td>
+                        <a href={data.url} target="_blank">
+                          more info
+                        </a>
+                      </td>
+                      <td className="">
+                        <div className="flex items-center gap-1 px-1">
+                          {data?.uvp}{" "}
+                          <img
+                            src={euro}
+                            alt=""
+                            className="h-[10px] w-[10px]"
+                          />{" "}
+                        </div>
+                      </td>
+                      <td>
+                        <div className="flex items-center gap-1 px-1x">
+                          {data?.vp}{" "}
+                          <img
+                            src={euro}
+                            alt=""
+                            className="h-[10px] w-[10px]"
+                          />{" "}
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })
             )}
           </tbody>
         </table>
