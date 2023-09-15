@@ -43,6 +43,8 @@ const NextPage = ({ products }) => {
 
   let excelProducts = products.flat();
 
+  console.log(excelProducts);
+
   const exportHandler = () => {
     const wb = XLSX.utils.book_new();
     const ws = XLSX.utils.json_to_sheet(excelProducts);
@@ -80,6 +82,7 @@ const NextPage = ({ products }) => {
               <td className="py-3 capitalize">article_number</td>
               <td>Brand</td>
               <td>Name</td>
+              <td>Category</td>
               <td>Available</td>
               <td>Url</td>
               <td>Uvp</td>
@@ -100,6 +103,7 @@ const NextPage = ({ products }) => {
                       <td>{data?.article_number}</td>
                       <td>{data?.brand}</td>
                       <td>{data?.name}</td>
+                      <td>{data?.category}</td>
                       <td>{data?.available}</td>
                       <td>
                         <a href={data.url} target="_blank">
