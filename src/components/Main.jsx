@@ -113,7 +113,7 @@ const Main = ({ setProducts }) => {
 
   const toggleElement = (categoryItem) => {
     if (selectedItems.includes(categoryItem)) {
-      setSelectedItems(selectedItems.filter((item) => item == categoryItem));
+      setSelectedItems(selectedItems.filter((item) => item != categoryItem));
     } else {
       setSelectedItems([...selectedItems, categoryItem]);
     }
@@ -348,6 +348,7 @@ const Main = ({ setProducts }) => {
                     );
                   })}
                 </div>
+
                 <button
                   className={`text-white ${
                     loading && "cursor-wait bg-[#807eff]"
