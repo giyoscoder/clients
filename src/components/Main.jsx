@@ -32,6 +32,8 @@ const Main = ({ setProducts }) => {
   const [selectedItems, setSelectedItems] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  loading?document.body.style.overflow='hidden': document.body.style.overflow=''
+
   const removeItem = (item) => {
     selection.filter((val) => item != val);
   };
