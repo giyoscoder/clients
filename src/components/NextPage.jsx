@@ -43,7 +43,7 @@ const NextPage = ({ products }) => {
 
   let excelProducts = products.flat();
 
-  
+  console.log(search.toLowerCase());
 
   const exportHandler = () => {
     const wb = XLSX.utils.book_new();
@@ -93,9 +93,7 @@ const NextPage = ({ products }) => {
             {products?.map((data, idx) =>
               data
                 ?.filter((data) => {
-                  return search.toLowerCase() == ""
-                    ? data
-                    : data?.brand.toLowerCase().includes(search);
+                  return search.toLowerCase() == "" ? data : data?.brand.toLowerCase().includes(search.toLowerCase());
                 })
                 .map((data, idx) => {
                   return (
