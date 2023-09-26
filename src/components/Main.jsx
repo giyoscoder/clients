@@ -31,8 +31,8 @@ const Main = ({ setProducts }) => {
   const [selectedItems, setSelectedItems] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // SelectAll 
-  const [selectBrandAll, setSelectBrandAll] = useState(false)
+  // SelectAll
+  const [selectBrandAll, setSelectBrandAll] = useState(false);
 
   loading
     ? (document.body.style.overflow = "hidden")
@@ -42,26 +42,26 @@ const Main = ({ setProducts }) => {
     selection.filter((val) => item != val);
   };
 
-  // useEffect(() => {
-  //   // const data = ["EMSA" ]
-  //   const params = {
-  //     brands: data,
-  //   };
+  useEffect(() => {
+    // const data = ["EMSA" ]
+    const params = {
+      brands: data,
+    };
 
-  //   const queryString = Object.keys(params)
-  //     .map((key) => {
-  //       const values = Array.isArray(params[key]) ? params[key] : [params[key]];
-  //       return values
-  //         .map(
-  //           (value) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
-  //         )
-  //         .join("&");
-  //     })
-  //     .join("&");
+    const queryString = Object.keys(params)
+      .map((key) => {
+        const values = Array.isArray(params[key]) ? params[key] : [params[key]];
+        return values
+          .map(
+            (value) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
+          )
+          .join("&");
+      })
+      .join("&");
 
-  //   const url = `/get_categories/?${queryString}`;
-  //   instance.get(url).then((data) => setResult(data?.data));
-  // }, [data, tefal, emsa]);
+    const url = `/get_categories/?${queryString}`;
+    instance.get(url).then((data) => setResult(data?.data));
+  }, [data, tefal, emsa]);
 
   const handleTefal = () => {
     if (!tefal) {
@@ -129,7 +129,7 @@ const Main = ({ setProducts }) => {
       <div className="w-[19%] h-screen bg-[#F8F8F8] shadow-xl fixed top-0 left-0 p-10">
         <div>
           <p className="text-black  text-xl  font-medium mt-8 mb-5">
-          Start parsing 
+            Start parsing
           </p>
           <div>
             <button
@@ -157,7 +157,7 @@ const Main = ({ setProducts }) => {
               {" "}
               <img src={media} className="mt-[-10px] mr-2" />{" "}
               <span className={`${mediaActive && "text-black font-medium"}`}>
-                Media Marketing
+              MediaMarkt
               </span>
             </button>
           </div>
@@ -171,14 +171,19 @@ const Main = ({ setProducts }) => {
       >
         <div className={`${data.length ? "" : "w-full"}`}>
           <div className="flex items-center gap-5 ">
-           <div className="flex items-center gap-1 border cursor-pointer border-[#999] py-2 px-1 rounded-sm" onClick={()=> {setSelectBrandAll(prev => !prev)}}>
-           <input
-              type="checkbox"
-              className="text-2xl h-4 w-4 cursor-pointer"
-              checked={selectBrandAll}
-            />
-            <BiSolidDownArrow size='10' className="text-[#777]"/>
-           </div>
+            <div
+              className="flex items-center gap-1 border cursor-pointer border-[#999] py-2 px-1 rounded-sm"
+              onClick={() => {
+                setSelectBrandAll((prev) => !prev);
+              }}
+            >
+              <input
+                type="checkbox"
+                className="text-2xl h-4 w-4 cursor-pointer"
+                checked={selectBrandAll}
+              />
+              <BiSolidDownArrow size="10" className="text-[#777]" />
+            </div>
             <p className="text-[#000] text-3xl font-medium">Brands</p>
           </div>
           <div
@@ -201,7 +206,6 @@ const Main = ({ setProducts }) => {
                 <p className="text-[#000] font-medium text-2xl">TEFAL</p>
               </div>
             </div>
-
 
             {/* Rowenta */}
             <div
