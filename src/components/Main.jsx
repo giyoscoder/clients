@@ -9,7 +9,7 @@ import {
   emsaImg,
 } from "../assets";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
-import { CiSearch } from "react-icons/ci";
+import { BiSolidDownArrow } from "react-icons/bi";
 import { instance } from "../Api/axios";
 import { NavLink } from "react-router-dom";
 import Loading from "./Loading";
@@ -17,8 +17,7 @@ import Loading from "./Loading";
 const Main = ({ setProducts }) => {
   // side active
   const [saturnActive, setSaturnActive] = useState(true);
-  const [mediaActive, setMediaActive] = useState(false);
-  const [ottoActive, setOttoActive] = useState(false);
+  const [mediaActive, setMediaActive] = useState(true);
 
   const [tefal, setTefal] = useState(false);
   const [rowenta, setRowenta] = useState(false);
@@ -32,32 +31,37 @@ const Main = ({ setProducts }) => {
   const [selectedItems, setSelectedItems] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  loading?document.body.style.overflow='hidden': document.body.style.overflow=''
+  // SelectAll 
+  const [selectBrandAll, setSelectBrandAll] = useState(false)
+
+  loading
+    ? (document.body.style.overflow = "hidden")
+    : (document.body.style.overflow = "");
 
   const removeItem = (item) => {
     selection.filter((val) => item != val);
   };
 
-  useEffect(() => {
-    // const data = ["EMSA" ]
-    const params = {
-      brands: data,
-    };
+  // useEffect(() => {
+  //   // const data = ["EMSA" ]
+  //   const params = {
+  //     brands: data,
+  //   };
 
-    const queryString = Object.keys(params)
-      .map((key) => {
-        const values = Array.isArray(params[key]) ? params[key] : [params[key]];
-        return values
-          .map(
-            (value) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
-          )
-          .join("&");
-      })
-      .join("&");
+  //   const queryString = Object.keys(params)
+  //     .map((key) => {
+  //       const values = Array.isArray(params[key]) ? params[key] : [params[key]];
+  //       return values
+  //         .map(
+  //           (value) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
+  //         )
+  //         .join("&");
+  //     })
+  //     .join("&");
 
-    const url = `/get_categories/?${queryString}`;
-    instance.get(url).then((data) => setResult(data?.data));
-  }, [data, tefal, emsa]);
+  //   const url = `/get_categories/?${queryString}`;
+  //   instance.get(url).then((data) => setResult(data?.data));
+  // }, [data, tefal, emsa]);
 
   const handleTefal = () => {
     if (!tefal) {
@@ -122,36 +126,18 @@ const Main = ({ setProducts }) => {
   return (
     <div className="w-full flex justify-end">
       {/* side bar */}
-      <div
-        className="w-[19%] h-screen fixed top-0 left-0 p-10"
-        style={{
-          background:
-            "linear-gradient(180deg,rgb(2,25,59) 0%,rgb(5,37,69) 30%,rgb(14,68,116) 66%,rgb(11,108,176)",
-        }}
-      >
-        <p className="text-white font-medium text-2xl">Logo</p>
-        <label className="bg-[rgb(2,25,59)] flex items-center gap-3 p-[7px] rounded-[49px] mt-5 border">
-          <CiSearch size={30} className="text-white" />
-          <input
-            placeholder="Search here"
-            className="border-none outline-none bg-transparent text-white"
-          />
-        </label>
+      <div className="w-[19%] h-screen bg-[#F8F8F8] shadow-xl fixed top-0 left-0 p-10">
         <div>
-          <p className="text-white  text-base font-medium mt-8 mb-3">
-            Main Menu
+          <p className="text-black  text-xl  font-medium mt-8 mb-5">
+          Start parsing 
           </p>
           <div>
             <button
               onClick={() => {
-                return (
-                  setSaturnActive(true),
-                  setMediaActive(false),
-                  setOttoActive(false)
-                );
+                return setSaturnActive(true), setMediaActive(false);
               }}
-              className={`bg-transparent ${
-                saturnActive && "bg-white text-[#000] font-medium"
+              className={`bg-transparent shadow-md text-[#000] ${
+                saturnActive && "bg-white  font-medium"
               } hover:bg-white hover:font-medium hover:text-[#000] p-4 text-white w-full text-start rounded-[49px]  font-normal flex items-start gap-1`}
             >
               {" "}
@@ -162,14 +148,10 @@ const Main = ({ setProducts }) => {
             </button>
             <button
               onClick={() => {
-                return (
-                  setSaturnActive(false),
-                  setMediaActive(true),
-                  setOttoActive(false)
-                );
+                return setSaturnActive(false), setMediaActive(true);
               }}
-              className={`bg-transparent ${
-                mediaActive ? "bg-white text-black font-medium" : ""
+              className={`bg-transparent text-black  shadow-md ${
+                mediaActive ? "bg-white font-medium" : ""
               } hover:bg-white hover:font-medium hover:text-[#000] p-4 text-white w-full text-start rounded-[49px] my-2 font-normal flex items-start gap-1`}
             >
               {" "}
@@ -178,34 +160,27 @@ const Main = ({ setProducts }) => {
                 Media Marketing
               </span>
             </button>
-            <button
-              onClick={() => {
-                return (
-                  setSaturnActive(false),
-                  setMediaActive(false),
-                  setOttoActive(true)
-                );
-              }}
-              className={`bg-transparent ${
-                ottoActive ? "bg-white text-black font-medium" : ""
-              } hover:bg-white hover:font-medium hover:text-[#000] p-4 text-white w-full text-start rounded-[49px]  font-normal flex items-start gap-1`}
-            >
-              {" "}
-              <img src={otto} className="pr-3" />{" "}
-              <span className={`${ottoActive && "text-black font-medium"}`}>
-                OTTO
-              </span>
-            </button>
           </div>
         </div>
       </div>
 
+      {/* ---------------------------------------------||------------------------------------------ */}
       {/* main part */}
       <div
         className={`w-[81%] h-screen bg-[#F8F8F8] p-10 flex items-start gap-[30px] `}
       >
         <div className={`${data.length ? "" : "w-full"}`}>
-          <p className="text-[#000] text-3xl font-medium">Brands</p>
+          <div className="flex items-center gap-5 ">
+           <div className="flex items-center gap-1 border cursor-pointer border-[#999] py-2 px-1 rounded-sm" onClick={()=> {setSelectBrandAll(prev => !prev)}}>
+           <input
+              type="checkbox"
+              className="text-2xl h-4 w-4 cursor-pointer"
+              checked={selectBrandAll}
+            />
+            <BiSolidDownArrow size='10' className="text-[#777]"/>
+           </div>
+            <p className="text-[#000] text-3xl font-medium">Brands</p>
+          </div>
           <div
             className={`grid ${
               data.length ? "grid-cols-1" : "grid-cols-4"
@@ -219,18 +194,14 @@ const Main = ({ setProducts }) => {
               onClick={handleTefal}
             >
               <div className="flex items-center gap-1">
-                <img src={tefalImg} className="h-[50xpx] w-[50px]" />
+                <input
+                  type="checkbox"
+                  className="text-2xl h-4 w-4 mr-1 cursor-pointer"
+                />
                 <p className="text-[#000] font-medium text-2xl">TEFAL</p>
               </div>
-
-              <div
-                className={`${
-                  tefal ? "bg-[#000] text-white" : "bg-transparent"
-                } hover:bg-[#000] hover:text-white cursor-pointer transition-all duration-500 border border-[#000] rounded-full p-[10px] `}
-              >
-                {tefal ? <BsArrowLeft size="15" /> : <BsArrowRight size="15" />}
-              </div>
             </div>
+
 
             {/* Rowenta */}
             <div
@@ -245,20 +216,12 @@ const Main = ({ setProducts }) => {
               }}
             >
               <div className="flex items-center gap-1">
-                <img src={rowentaImg} className="h-[50xpx] w-[50px]" />
-                <p className="text-[#000] font-medium text-2xl ">ROWENTA</p>
-              </div>
+                <input
+                  type="checkbox"
+                  className="text-2xl h-4 w-4 mr-1 cursor-pointer"
+                />
 
-              <div
-                className={`${
-                  rowenta ? "bg-[#000] text-white" : "bg-transparent"
-                } hover:bg-[#000]  hover:text-white cursor-pointer transition-all duration-500 border border-[#000] rounded-full p-[10px] `}
-              >
-                {rowenta ? (
-                  <BsArrowLeft size="15" />
-                ) : (
-                  <BsArrowRight size="15" />
-                )}
+                <p className="text-[#000] font-medium text-2xl ">ROWENTA</p>
               </div>
             </div>
 
@@ -270,15 +233,12 @@ const Main = ({ setProducts }) => {
               onClick={handlerEmsa}
             >
               <div className="flex items-center gap-1">
-                <img src={emsaImg} className="h-[40px] w-[40px]" />
+                <input
+                  type="checkbox"
+                  className="text-2xl h-4 w-4 mr-1 cursor-pointer"
+                />
+
                 <p className="text-[#000] font-medium text-2xl">EMSA</p>
-              </div>
-              <div
-                className={`${
-                  emsa ? "bg-[#000] text-white" : "bg-transparent"
-                }  hover:bg-[#000] hover:text-white cursor-pointer transition-all duration-500 border border-[#000] rounded-full p-[10px]`}
-              >
-                {emsa ? <BsArrowLeft size="15" /> : <BsArrowRight size="15" />}
               </div>
             </div>
 
@@ -295,15 +255,11 @@ const Main = ({ setProducts }) => {
               }}
             >
               <div className="flex items-center gap-1">
-                <img src={krupsImg} className="h-[50px] w-[50px]" />
+                <input
+                  type="checkbox"
+                  className="text-2xl h-4 w-4 mr-1 cursor-pointer"
+                />
                 <p className="text-[#000] font-medium text-2xl">KRUPS</p>
-              </div>
-              <div
-                className={`${
-                  krups ? "bg-[#000] text-white" : "bg-transparent"
-                } hover:bg-[#000] hover:text-white cursor-pointer transition-all duration-500 border border-[#000] rounded-full p-[10px]`}
-              >
-                {krups ? <BsArrowLeft size="15" /> : <BsArrowRight size="15" />}
               </div>
             </div>
           </div>
@@ -312,10 +268,12 @@ const Main = ({ setProducts }) => {
         {/* Lists */}
         {data.length != 0 && (
           <div className="grow">
-            <p className="text-[#000] text-3xl mb-[28px] font-medium">Products</p>
-            
-           <div className="relative">
-           <div className="bg-white border relative border-[#F1F1F1] rounded-2xl p-5  divide-[white] h-[500px] overflow-y-scroll listData">
+            <p className="text-[#000] text-3xl mb-[28px] font-medium">
+              Category
+            </p>
+
+            <div className="relative">
+              <div className="bg-white border relative border-[#F1F1F1] rounded-2xl p-5  divide-[white] h-[500px] overflow-y-scroll listData">
                 {/* list */}
                 <div>
                   {result.map((data, idx) => {
@@ -337,9 +295,7 @@ const Main = ({ setProducts }) => {
                         </p>
                         <p
                           className={`grow text-[#000] text-base tracking-[0.16px] py-[11px] pl-[11px]  ${
-                            isSelected
-                              ? "bg-[#ddd] "
-                              : "bg-transparent "
+                            isSelected ? "bg-[#ddd] " : "bg-transparent "
                           } rounded-lg`}
                         >
                           {data?.category}
@@ -358,19 +314,18 @@ const Main = ({ setProducts }) => {
                 >
                   {loading ? "Loading..." : "Start Parsing"}
                 </button>
-             
               </div>
-            
-            <div className="flex items-center justify-between bg-white p-5 rounded-[16px] mt-[10px]">
-              <p className="text-xl font-normal text-[#000]">Total: </p>
-              <NavLink to="/next" className="text-xl font-medium text-[#000]">
-                {number?.count} Articles
-              </NavLink>
+
+              <div className="flex items-center justify-between bg-white p-5 rounded-[16px] mt-[10px]">
+                <p className="text-xl font-normal text-[#000]">Total: </p>
+                <NavLink to="/next" className="text-xl font-medium text-[#000]">
+                  {number?.count} Articles
+                </NavLink>
+              </div>
             </div>
-           </div>
           </div>
         )}
-        { loading && <Loading/> }
+        {loading && <Loading />}
       </div>
     </div>
   );

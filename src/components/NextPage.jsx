@@ -79,6 +79,7 @@ const NextPage = ({ products }) => {
         <table className="w-full table text-center  ">
           <thead>
             <tr className="font-bold bg-slate-100 ">
+              <td>Retailer</td>
               <td className="py-3 capitalize">article_number</td>
               <td>Brand</td>
               <td>Name</td>
@@ -98,6 +99,7 @@ const NextPage = ({ products }) => {
                 .map((data, idx) => {
                   return (
                     <tr key={idx}>
+                      <td>{data?.retailer}</td>
                       <td>{data?.article_number}</td>
                       <td>{data?.brand}</td>
                       <td>{data?.name}</td>
