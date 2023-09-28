@@ -31,8 +31,10 @@ const Main = ({ setProducts }) => {
   const [selectedItems, setSelectedItems] = useState([]);
   const [loading, setLoading] = useState(false);
 
+
   // SelectAll
   const [selectBrandAll, setSelectBrandAll] = useState(false);
+  const [selectCategoryAll, setSelectCategoryAll] = useState(false)
 
   loading
     ? (document.body.style.overflow = "hidden")
@@ -45,7 +47,7 @@ const Main = ({ setProducts }) => {
   useEffect(() => {
     // const data = ["EMSA" ]
     const params = {
-      brands: data,
+      brands: selectCategoryAll ? result : data,
     };
 
     const queryString = Object.keys(params)
@@ -61,7 +63,7 @@ const Main = ({ setProducts }) => {
 
     const url = `/get_categories/?${queryString}`;
     instance.get(url).then((data) => setResult(data?.data));
-  }, [data, tefal, emsa]);
+  }, [data, tefal, emsa, rowenta, krups]);
 
   const handleTefal = () => {
     if (!tefal) {
@@ -69,6 +71,10 @@ const Main = ({ setProducts }) => {
     } else {
       if (emsa) {
         setData(["EMSA"]);
+      } else if (rowenta) {
+        setData(["Rowenta"]);
+      } else if (krups) {
+        setData(["Krups"]);
       } else {
         setData([]);
       }
@@ -83,11 +89,49 @@ const Main = ({ setProducts }) => {
     } else {
       if (tefal) {
         setData(["Tefal"]);
+      } else if (rowenta) {
+        setData(["Rowenta"]);
+      } else if (krups) {
+        setData(["Krups"]);
       } else {
         setData([]);
       }
     }
     setEmsa((value) => !value);
+  };
+
+  const handlerRowenta = () => {
+    if (!rowenta) {
+      setData((prev) => [...prev, "Rowenta"]);
+    } else {
+      if (tefal) {
+        setData(["Tefal"]);
+      } else if (emsa) {
+        setData(["EMSA"]);
+      } else if (krups) {
+        setData(["Krups"]);
+      } else {
+        setData([]);
+      }
+    }
+    setRowenta((value) => !value);
+  };
+
+  const handlerKrups = () => {
+    if (!krups) {
+      setData((prev) => [...prev, "Krups"]);
+    } else {
+      if (tefal) {
+        setData(["Tefal"]);
+      } else if (emsa) {
+        setData(["EMSA"]);
+      } else if (rowenta) {
+        setData(["Rowenta"]);
+      } else {
+        setData([]);
+      }
+    }
+    setKrups((value) => !value);
   };
 
   const submitHandler = () => {
@@ -113,6 +157,7 @@ const Main = ({ setProducts }) => {
       .then((data) => setNumber(data?.data))
       .finally(() => setLoading(false));
   };
+
   setProducts(number?.products);
 
   const toggleElement = (categoryItem) => {
@@ -126,11 +171,9 @@ const Main = ({ setProducts }) => {
   return (
     <div className="w-full flex justify-end">
       {/* side bar */}
-      <div className="w-[19%] h-screen bg-[#F8F8F8] shadow-xl fixed top-0 left-0 p-10">
+      <div className="w-[19%] h-screen  shadow-xl fixed top-0 left-0 p-10 sidebar">
         <div>
-          <p className="text-black  text-xl  font-medium mt-8 mb-5">
-            Start parsing
-          </p>
+          <p className="text-black  text-xl  font-medium mt-8 mb-5">Retailer</p>
           <div>
             <button
               onClick={() => {
@@ -157,7 +200,7 @@ const Main = ({ setProducts }) => {
               {" "}
               <img src={media} className="mt-[-10px] mr-2" />{" "}
               <span className={`${mediaActive && "text-black font-medium"}`}>
-              MediaMarkt
+                MediaMarkt
               </span>
             </button>
           </div>
@@ -173,9 +216,13 @@ const Main = ({ setProducts }) => {
           <div className="flex items-center gap-5 ">
             <div
               className="flex items-center gap-1 border cursor-pointer border-[#999] py-2 px-1 rounded-sm"
-              onClick={() => {
-                setSelectBrandAll((prev) => !prev);
-              }}
+              onClick={() => (
+                setSelectBrandAll((prev) => !prev),
+                handleTefal(),
+                handlerEmsa(),
+                handlerKrups(),
+                handlerRowenta()
+              )}
             >
               <input
                 type="checkbox"
@@ -186,6 +233,7 @@ const Main = ({ setProducts }) => {
             </div>
             <p className="text-[#000] text-3xl font-medium">Brands</p>
           </div>
+
           <div
             className={`grid ${
               data.length ? "grid-cols-1" : "grid-cols-4"
@@ -193,7 +241,7 @@ const Main = ({ setProducts }) => {
           >
             {/* tefal */}
             <div
-              className={`bg-white ${
+              className={`bg-white shadow-md shadow-[#94bdff] ${
                 tefal ? "border-[#000]" : "border-[#F1F1F1]"
               } border  rounded-2xl px-2 py-5   flex  items-center  justify-between cursor-pointer`}
               onClick={handleTefal}
@@ -202,6 +250,7 @@ const Main = ({ setProducts }) => {
                 <input
                   type="checkbox"
                   className="text-2xl h-4 w-4 mr-1 cursor-pointer"
+                  checked={tefal}
                 />
                 <p className="text-[#000] font-medium text-2xl">TEFAL</p>
               </div>
@@ -209,20 +258,16 @@ const Main = ({ setProducts }) => {
 
             {/* Rowenta */}
             <div
-              className={`bg-white border ${
+              className={`bg-white border shadow-md shadow-[#94bdff] ${
                 rowenta ? "border-[#000]" : "border-[#F1F1F1]"
               }  rounded-2xl px-2 py-5  inline-flex  items-center justify-between cursor-pointer`}
-              onClick={() => {
-                return (
-                  setData((prev) => [...prev, "Rowenta"]),
-                  setRowenta((prev) => !prev)
-                );
-              }}
+              onClick={handlerRowenta}
             >
               <div className="flex items-center gap-1">
                 <input
                   type="checkbox"
                   className="text-2xl h-4 w-4 mr-1 cursor-pointer"
+                  checked={rowenta}
                 />
 
                 <p className="text-[#000] font-medium text-2xl ">ROWENTA</p>
@@ -231,7 +276,7 @@ const Main = ({ setProducts }) => {
 
             {/* Emsa */}
             <div
-              className={`bg-white border ${
+              className={`bg-white border shadow-md shadow-[#94bdff] ${
                 emsa ? "border-[#000]" : "border-[#F1F1F1]"
               } rounded-2xl px-2 py-5  inline-flex  items-center justify-between cursor-pointer`}
               onClick={handlerEmsa}
@@ -240,6 +285,7 @@ const Main = ({ setProducts }) => {
                 <input
                   type="checkbox"
                   className="text-2xl h-4 w-4 mr-1 cursor-pointer"
+                  checked={emsa}
                 />
 
                 <p className="text-[#000] font-medium text-2xl">EMSA</p>
@@ -248,20 +294,16 @@ const Main = ({ setProducts }) => {
 
             {/* Krups */}
             <div
-              className={` bg-white border ${
+              className={` bg-white border shadow-md shadow-[#94bdff] ${
                 krups ? "border-[#000]" : "border-[#F1F1F1]"
               } rounded-2xl px-2 py-5 inline-flex  items-center justify-between cursor-pointer`}
-              onClick={() => {
-                return (
-                  setData((prev) => [...prev, "Krups"]),
-                  setKrups((prev) => !prev)
-                );
-              }}
+              onClick={handlerKrups}
             >
               <div className="flex items-center gap-1">
                 <input
                   type="checkbox"
                   className="text-2xl h-4 w-4 mr-1 cursor-pointer"
+                  checked={krups}
                 />
                 <p className="text-[#000] font-medium text-2xl">KRUPS</p>
               </div>
@@ -272,9 +314,22 @@ const Main = ({ setProducts }) => {
         {/* Lists */}
         {data.length != 0 && (
           <div className="grow">
-            <p className="text-[#000] text-3xl mb-[28px] font-medium">
-              Category
-            </p>
+            <div className="flex justify-between">
+              <p className="text-[#000] text-3xl mb-[28px] font-medium">
+                Category
+              </p>
+              <div
+                className="flex items-center gap-1 border cursor-pointer border-[#999] h-[30px] p-2 rounded-sm"
+               onClick={()=> (setSelectCategoryAll(prev => !prev))}
+              >
+                <input
+                  type="checkbox"
+                  className="text-2xl h-4 w-4 cursor-pointer"
+                  checked={selectCategoryAll}
+                />
+                <BiSolidDownArrow size="10" className="text-[#777]" />
+              </div>
+            </div>
 
             <div className="relative">
               <div className="bg-white border relative border-[#F1F1F1] rounded-2xl p-5  divide-[white] h-[500px] overflow-y-scroll listData">
@@ -308,11 +363,13 @@ const Main = ({ setProducts }) => {
                     );
                   })}
                 </div>
+              </div>
 
+              <div className="">
                 <button
                   className={`text-white ${
                     loading && "cursor-wait bg-[#807eff]"
-                  } font-medium text-xl py-[10px] px-[73px] rounded-[10px] border-none transition-all duration-300 bg-[#4340ff] mt-10 block ml-auto `}
+                  } font-mediumtext-xl py-[10px] px-[73px] rounded-[10px] border-none transition-all duration-300 bg-[#4340ff] my-8 block ml-auto `}
                   onClick={submitHandler}
                   disabled={loading}
                 >
